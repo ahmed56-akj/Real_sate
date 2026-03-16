@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NestFinder — Find Your Dream Home</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root {
+  --orange: #FF6B35;
+  --orange2: #FF8C5A;
+  --orange3: #FFB088;
+  --orangelight: #FFF0EB;
+  --orangeglow: rgba(255,107,53,0.15);
+  --white: #FFFFFF;
+  --offwhite: #FAFAF8;
+  --gray50: #F7F7F5;
+  --gray100: #EEEDE9;
+  --gray300: #C8C7C0;
+  --gray500: #8A8980;
+  --gray700: #4A4940;
+  --dark: #1A1A18;
+  --green: #2ECC71;
+  --blue: #3B82F6;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--white);color:var(--dark);overflow-x:hidden;}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:#fff;}
+::-webkit-scrollbar-thumb{background:var(--orange);border-radius:4px;}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.2rem 5%;
+  background:rgba(255,255,255,0.95);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(255,107,53,0.1);
+  transition:all 0.4s;
+  box-shadow:0 2px 20px rgba(0,0,0,0.06);
+}
+.nav-logo{display:flex;align-items:center;gap:0.6rem;}
+.nav-logo .logo-icon{
+  width:38px;height:38px;background:var(--orange);border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;color:white;font-weight:700;
+  box-shadow:0 4px 15px rgba(255,107,53,0.4);
+}
+.nav-logo .logo-text{
+  font-family:'DM Serif Display',serif;font-size:1.5rem;color:var(--dark);
+}
+.nav-logo .logo-text span{color:var(--orange);}
+nav ul{list-style:none;display:flex;gap:2.5rem;}
+nav ul a{
+  text-decoration:none;color:var(--gray700);font-size:0.88rem;font-weight:500;
+  transition:color 0.3s;position:relative;
+}
+nav ul a::after{
+  content:'';position:absolute;bottom:-4px;left:0;
+  width:0;height:2px;background:var(--orange);
+  border-radius:2px;transition:width 0.3s;
+}
+nav ul a:hover{color:var(--orange);}
+nav ul a:hover::after{width:100%;}
+.nav-btns{display:flex;gap:1rem;align-items:center;}
+.btn-login{
+  background:none;border:2px solid var(--orange);color:var(--orange);
+  padding:0.5rem 1.3rem;border-radius:8px;font-size:0.82rem;font-weight:600;
+  font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;transition:all 0.3s;
+}
+.btn-login:hover{background:var(--orange);color:white;}
+.btn-post{
+  background:var(--orange);color:white;
+  padding:0.5rem 1.3rem;border-radius:8px;font-size:0.82rem;font-weight:600;
+  font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;transition:all 0.3s;
+  border:2px solid var(--orange);
+  box-shadow:0 4px 15px rgba(255,107,53,0.3);
+}
+.btn-post:hover{background:#e85a28;transform:translateY(-1px);box-shadow:0 6px 20px rgba(255,107,53,0.4);}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;
+  background:linear-gradient(135deg,#FFF8F5 0%,#FFFFFF 50%,#FFF3EE 100%);
+  display:flex;align-items:center;
+  padding:7rem 5% 4rem;
+  position:relative;overflow:hidden;
+}
+.hero-blob1{
+  position:absolute;top:-100px;right:-100px;
+  width:600px;height:600px;
+  background:radial-gradient(circle,rgba(255,107,53,0.12),transparent 70%);
+  border-radius:50%;pointer-events:none;
+  animation:floatBlob 8s ease-in-out infinite;
+}
+.hero-blob2{
+  position:absolute;bottom:-150px;left:-100px;
+  width:500px;height:500px;
+  background:radial-gradient(circle,rgba(255,140,90,0.08),transparent 70%);
+  border-radius:50%;pointer-events:none;
+  animation:floatBlob 10s ease-in-out infinite reverse;
+}
+.hero-dots{
+  position:absolute;top:15%;right:10%;
+  display:grid;grid-template-columns:repeat(6,1fr);gap:18px;
+  opacity:0.15;pointer-events:none;
+}
+.hero-dots span{
+  width:5px;height:5px;border-radius:50%;
+  background:var(--orange);display:block;
+}
+.hero-content{position:relative;z-index:2;max-width:620px;}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:0.5rem;
+  background:var(--orangelight);color:var(--orange);
+  padding:0.45rem 1rem;border-radius:50px;
+  font-size:0.78rem;font-weight:600;
+  margin-bottom:1.8rem;
+  border:1px solid rgba(255,107,53,0.2);
+  animation:zoomIn 0.6s ease both;
+}
+.hero-badge .dot{width:7px;height:7px;background:var(--orange);border-radius:50%;animation:pulse 2s infinite;}
+.hero h1{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(2.8rem,5.5vw,4.5rem);
+  line-height:1.1;color:var(--dark);
+  margin-bottom:1.5rem;
+  animation:zoomIn 0.7s 0.1s ease both;
+}
+.hero h1 .highlight{
+  color:var(--orange);position:relative;display:inline-block;
+}
+.hero h1 .highlight::after{
+  content:'';position:absolute;bottom:-4px;left:0;right:0;
+  height:4px;background:linear-gradient(90deg,var(--orange),var(--orange3));
+  border-radius:2px;
+}
+.hero p{
+  font-size:1.05rem;line-height:1.8;color:var(--gray500);
+  max-width:480px;margin-bottom:2.5rem;
+  animation:zoomIn 0.7s 0.2s ease both;
+}
+
+/* Search Box */
+.search-box{
+  background:white;border-radius:16px;padding:1.2rem;
+  box-shadow:0 20px 60px rgba(0,0,0,0.1),0 0 0 1px rgba(255,107,53,0.1);
+  animation:zoomIn 0.7s 0.3s ease both;
+  margin-bottom:2rem;
+}
+.search-tabs{display:flex;gap:0.5rem;margin-bottom:1rem;}
+.search-tab{
+  padding:0.5rem 1.2rem;border-radius:8px;font-size:0.8rem;font-weight:600;
+  background:none;border:none;cursor:pointer;color:var(--gray500);
+  font-family:'Plus Jakarta Sans',sans-serif;transition:all 0.2s;
+}
+.search-tab.active,.search-tab:hover{background:var(--orange);color:white;}
+.search-fields{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:0.8rem;align-items:end;}
+.search-field label{font-size:0.7rem;font-weight:600;color:var(--gray500);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:0.4rem;display:block;}
+.search-field input,.search-field select{
+  width:100%;padding:0.75rem 1rem;border:1.5px solid var(--gray100);
+  border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:0.85rem;color:var(--dark);background:var(--gray50);outline:none;
+  transition:border-color 0.3s;
+}
+.search-field input:focus,.search-field select:focus{border-color:var(--orange);}
+.btn-search{
+  background:linear-gradient(135deg,var(--orange),var(--orange2));
+  color:white;border:none;padding:0.75rem 1.8rem;border-radius:10px;
+  font-size:0.88rem;font-weight:700;cursor:pointer;white-space:nowrap;
+  font-family:'Plus Jakarta Sans',sans-serif;
+  transition:all 0.3s;box-shadow:0 4px 15px rgba(255,107,53,0.4);
+}
+.btn-search:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(255,107,53,0.5);}
+.hero-stats{
+  display:flex;gap:2.5rem;
+  animation:zoomIn 0.7s 0.4s ease both;
+}
+.h-stat .num{font-family:'DM Serif Display',serif;font-size:2rem;color:var(--orange);}
+.h-stat .lbl{font-size:0.75rem;color:var(--gray500);font-weight:500;margin-top:0.2rem;}
+.hero-visual{
+  position:relative;z-index:2;
+  flex:1;display:flex;justify-content:center;align-items:center;
+  animation:zoomIn 0.8s 0.3s ease both;
+}
+.hero-img-wrap{
+  position:relative;width:480px;
+}
+.hero-img-main{
+  width:100%;height:400px;
+  background:url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=900&q=80') center/cover;
+  border-radius:24px;
+  box-shadow:0 30px 80px rgba(255,107,53,0.2),0 10px 40px rgba(0,0,0,0.1);
+}
+.hero-card1{
+  position:absolute;bottom:-20px;left:-30px;
+  background:white;border-radius:16px;padding:1rem 1.2rem;
+  box-shadow:0 10px 40px rgba(0,0,0,0.12);
+  display:flex;align-items:center;gap:0.8rem;
+  animation:floatCard 4s ease-in-out infinite;
+}
+.hero-card1 .icon{width:40px;height:40px;background:var(--orangelight);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;}
+.hero-card1 .t1{font-size:0.7rem;color:var(--gray500);}
+.hero-card1 .t2{font-family:'DM Serif Display',serif;font-size:1.1rem;color:var(--dark);}
+.hero-card2{
+  position:absolute;top:-15px;right:-25px;
+  background:var(--orange);color:white;border-radius:16px;
+  padding:1rem 1.2rem;box-shadow:0 10px 30px rgba(255,107,53,0.4);
+  animation:floatCard 5s ease-in-out infinite reverse;
+}
+.hero-card2 .n{font-family:'DM Serif Display',serif;font-size:1.8rem;}
+.hero-card2 .t{font-size:0.7rem;opacity:0.85;}
+.hero-card3{
+  position:absolute;top:50%;right:-40px;
+  transform:translateY(-50%);
+  background:white;border-radius:14px;padding:0.8rem 1rem;
+  box-shadow:0 8px 30px rgba(0,0,0,0.1);
+  animation:floatCard 6s ease-in-out infinite;
+}
+.hero-card3 .stars{color:var(--orange);font-size:0.75rem;}
+.hero-card3 .rt{font-weight:700;font-size:0.9rem;}
+.hero-card3 .rv{font-size:0.7rem;color:var(--gray500);}
+
+/* ── STATS BAR ── */
+.stats-bar{
+  background:linear-gradient(135deg,var(--orange),var(--orange2));
+  padding:2.5rem 5%;
+  display:flex;justify-content:center;gap:0;
+}
+.stats-bar .s-item{
+  text-align:center;color:white;flex:1;
+  position:relative;padding:0 2rem;
+}
+.stats-bar .s-item:not(:last-child)::after{
+  content:'';position:absolute;right:0;top:10%;bottom:10%;
+  width:1px;background:rgba(255,255,255,0.3);
+}
+.stats-bar .s-item .n{font-family:'DM Serif Display',serif;font-size:2.5rem;}
+.stats-bar .s-item .l{font-size:0.82rem;opacity:0.85;margin-top:0.3rem;}
+
+/* ── SECTION COMMON ── */
+.section{padding:6rem 5%;}
+.section.bg-gray{background:var(--gray50);}
+.sec-head{text-align:center;margin-bottom:3.5rem;}
+.sec-tag{
+  display:inline-flex;align-items:center;gap:0.5rem;
+  background:var(--orangelight);color:var(--orange);
+  padding:0.35rem 1rem;border-radius:50px;
+  font-size:0.75rem;font-weight:600;
+  margin-bottom:1rem;
+}
+.sec-h2{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(2rem,3.5vw,3rem);
+  color:var(--dark);line-height:1.2;
+}
+.sec-h2 span{color:var(--orange);}
+.sec-p{font-size:0.9rem;color:var(--gray500);line-height:1.8;max-width:500px;margin:0.8rem auto 0;}
+
+/* ── PROPERTY CARDS ── */
+.properties-tabs{display:flex;justify-content:center;gap:0.8rem;margin-bottom:2.5rem;}
+.prop-tab{
+  padding:0.6rem 1.5rem;border-radius:50px;font-size:0.82rem;font-weight:600;
+  background:none;border:2px solid var(--gray100);color:var(--gray500);
+  cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all 0.3s;
+}
+.prop-tab.active,.prop-tab:hover{background:var(--orange);color:white;border-color:var(--orange);}
+.properties-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1.8rem;
+}
+.prop-card{
+  background:white;border-radius:20px;overflow:hidden;
+  box-shadow:0 4px 20px rgba(0,0,0,0.06);
+  transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);
+  border:1px solid var(--gray100);
+}
+.prop-card:hover{transform:translateY(-8px);box-shadow:0 20px 50px rgba(255,107,53,0.15),0 8px 25px rgba(0,0,0,0.08);}
+.prop-img{
+  position:relative;overflow:hidden;
+}
+.prop-img .img{
+  width:100%;height:220px;
+  background-size:cover;background-position:center;
+  transition:transform 0.5s ease;
+}
+.prop-card:hover .prop-img .img{transform:scale(1.06);}
+.prop-img .badge{
+  position:absolute;top:14px;left:14px;
+  background:var(--orange);color:white;
+  padding:0.3rem 0.8rem;border-radius:6px;
+  font-size:0.7rem;font-weight:700;letter-spacing:0.5px;
+}
+.prop-img .badge.rent{background:var(--blue);}
+.prop-img .badge.sold{background:var(--green);}
+.prop-img .fav{
+  position:absolute;top:14px;right:14px;
+  width:34px;height:34px;background:white;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1rem;cursor:pointer;
+  box-shadow:0 2px 10px rgba(0,0,0,0.1);
+  transition:all 0.3s;
+}
+.prop-img .fav:hover{background:var(--orange);color:white;}
+.prop-body{padding:1.4rem;}
+.prop-price{font-family:'DM Serif Display',serif;font-size:1.5rem;color:var(--orange);margin-bottom:0.4rem;}
+.prop-price span{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.75rem;color:var(--gray500);font-weight:400;}
+.prop-name{font-size:1rem;font-weight:700;color:var(--dark);margin-bottom:0.4rem;}
+.prop-loc{font-size:0.8rem;color:var(--gray500);display:flex;align-items:center;gap:0.3rem;margin-bottom:1rem;}
+.prop-features{
+  display:flex;gap:1rem;padding-top:1rem;
+  border-top:1px solid var(--gray100);
+}
+.prop-feat{display:flex;align-items:center;gap:0.4rem;font-size:0.78rem;color:var(--gray500);}
+.prop-feat .icon{font-size:0.9rem;}
+.view-all-wrap{text-align:center;margin-top:3rem;}
+.btn-outline-orange{
+  background:none;border:2px solid var(--orange);color:var(--orange);
+  padding:0.8rem 2.2rem;border-radius:10px;font-size:0.88rem;font-weight:700;
+  font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;transition:all 0.3s;
+}
+.btn-outline-orange:hover{background:var(--orange);color:white;transform:translateY(-2px);}
+
+/* ── BUY / RENT / SELL ── */
+.brs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;}
+.brs-card{
+  border-radius:20px;padding:2.5rem 2rem;text-align:center;
+  transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);
+  cursor:pointer;
+}
+.brs-card:hover{transform:translateY(-8px);}
+.brs-card.buy{background:linear-gradient(135deg,#FFF0EB,#FFE4D9);}
+.brs-card.rent{background:linear-gradient(135deg,#EBF5FF,#D9ECFF);}
+.brs-card.sell{background:linear-gradient(135deg,#EBFFF2,#D9FFE9);}
+.brs-card .brs-icon{
+  width:72px;height:72px;border-radius:20px;margin:0 auto 1.5rem;
+  display:flex;align-items:center;justify-content:center;font-size:2rem;
+}
+.brs-card.buy .brs-icon{background:var(--orange);box-shadow:0 8px 25px rgba(255,107,53,0.35);}
+.brs-card.rent .brs-icon{background:var(--blue);box-shadow:0 8px 25px rgba(59,130,246,0.35);}
+.brs-card.sell .brs-icon{background:var(--green);box-shadow:0 8px 25px rgba(46,204,113,0.35);}
+.brs-card h3{font-family:'DM Serif Display',serif;font-size:1.6rem;margin-bottom:0.8rem;color:var(--dark);}
+.brs-card p{font-size:0.85rem;color:var(--gray500);line-height:1.8;margin-bottom:1.5rem;}
+.brs-card .brs-btn{
+  display:inline-block;padding:0.6rem 1.5rem;border-radius:8px;
+  font-size:0.8rem;font-weight:700;text-decoration:none;transition:all 0.3s;
+}
+.brs-card.buy .brs-btn{background:var(--orange);color:white;}
+.brs-card.rent .brs-btn{background:var(--blue);color:white;}
+.brs-card.sell .brs-btn{background:var(--green);color:white;}
+.brs-card .brs-btn:hover{transform:scale(1.05);}
+
+/* ── AGENTS ── */
+.agents-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.8rem;}
+.agent-card{
+  background:white;border-radius:20px;overflow:hidden;
+  box-shadow:0 4px 20px rgba(0,0,0,0.06);
+  transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);
+  text-align:center;border:1px solid var(--gray100);
+}
+.agent-card:hover{transform:translateY(-8px);box-shadow:0 20px 50px rgba(255,107,53,0.12);}
+.agent-photo{
+  width:100%;height:220px;
+  background-size:cover;background-position:center top;
+  position:relative;
+}
+.agent-photo::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:60px;
+  background:linear-gradient(to top,white,transparent);
+}
+.agent-body{padding:1.2rem 1.5rem 1.5rem;}
+.agent-name{font-family:'DM Serif Display',serif;font-size:1.2rem;color:var(--dark);}
+.agent-role{font-size:0.75rem;color:var(--orange);font-weight:600;letter-spacing:0.5px;margin:0.3rem 0 0.8rem;}
+.agent-stats{display:flex;justify-content:center;gap:1.5rem;margin-bottom:1rem;}
+.agent-stat .n{font-weight:700;font-size:0.95rem;color:var(--dark);}
+.agent-stat .l{font-size:0.68rem;color:var(--gray500);}
+.agent-social{display:flex;justify-content:center;gap:0.6rem;}
+.soc-btn{
+  width:32px;height:32px;border-radius:8px;border:1.5px solid var(--gray100);
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.8rem;color:var(--gray500);cursor:pointer;transition:all 0.3s;
+}
+.soc-btn:hover{background:var(--orange);border-color:var(--orange);color:white;}
+
+/* ── TESTIMONIALS ── */
+.test-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;}
+.test-card{
+  background:white;border-radius:20px;padding:2rem;
+  box-shadow:0 4px 20px rgba(0,0,0,0.06);
+  border:1px solid var(--gray100);
+  transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);
+  position:relative;
+}
+.test-card:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(255,107,53,0.1);}
+.test-card::before{
+  content:'"';position:absolute;top:1rem;right:1.5rem;
+  font-family:'DM Serif Display',serif;font-size:5rem;
+  color:var(--orangelight);line-height:1;
+}
+.test-stars{color:var(--orange);font-size:0.85rem;margin-bottom:1rem;}
+.test-text{font-size:0.88rem;line-height:1.8;color:var(--gray700);margin-bottom:1.5rem;}
+.test-client{display:flex;align-items:center;gap:1rem;}
+.test-avatar{
+  width:46px;height:46px;border-radius:50%;
+  background:var(--orangelight);border:2px solid var(--orange3);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'DM Serif Display',serif;font-size:1.2rem;color:var(--orange);
+  overflow:hidden;
+}
+.test-avatar img{width:100%;height:100%;object-fit:cover;}
+.test-name{font-weight:700;font-size:0.88rem;color:var(--dark);}
+.test-loc{font-size:0.75rem;color:var(--gray500);}
+
+/* ── CONTACT ── */
+.contact-wrap{
+  display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;
+}
+.contact-info{}
+.contact-info p{font-size:0.9rem;line-height:1.9;color:var(--gray500);margin:1.5rem 0 2.5rem;}
+.c-detail{display:flex;gap:1.2rem;align-items:flex-start;margin-bottom:1.8rem;}
+.c-detail .c-icon{
+  width:48px;height:48px;flex-shrink:0;border-radius:12px;
+  background:var(--orangelight);display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;
+}
+.c-detail h4{font-size:0.75rem;font-weight:700;color:var(--gray500);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:0.3rem;}
+.c-detail p{font-size:0.88rem;color:var(--dark);margin:0;}
+.contact-form{
+  background:white;border-radius:24px;padding:2.5rem;
+  box-shadow:0 10px 50px rgba(0,0,0,0.08);
+  border:1px solid var(--gray100);
+}
+.contact-form h3{font-family:'DM Serif Display',serif;font-size:1.6rem;margin-bottom:1.5rem;color:var(--dark);}
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;}
+.f-group{margin-bottom:1.2rem;}
+.f-group label{font-size:0.72rem;font-weight:700;color:var(--gray500);text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:0.5rem;}
+.f-group input,.f-group select,.f-group textarea{
+  width:100%;padding:0.85rem 1rem;border:1.5px solid var(--gray100);border-radius:10px;
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:0.85rem;color:var(--dark);
+  background:var(--gray50);outline:none;transition:border-color 0.3s;resize:none;
+}
+.f-group input:focus,.f-group select:focus,.f-group textarea:focus{border-color:var(--orange);background:white;}
+.btn-send{
+  width:100%;background:linear-gradient(135deg,var(--orange),var(--orange2));
+  color:white;border:none;padding:1rem;border-radius:10px;
+  font-size:0.9rem;font-weight:700;cursor:pointer;
+  font-family:'Plus Jakarta Sans',sans-serif;transition:all 0.3s;
+  box-shadow:0 6px 20px rgba(255,107,53,0.35);
+}
+.btn-send:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(255,107,53,0.45);}
+.form-ok{display:none;background:var(--orangelight);color:var(--orange);padding:1rem;border-radius:10px;text-align:center;font-weight:600;font-size:0.88rem;margin-top:1rem;}
+
+/* ── NEWSLETTER ── */
+.newsletter{
+  background:linear-gradient(135deg,var(--orange) 0%,#FF8C5A 50%,#FFB088 100%);
+  padding:5rem 5%;text-align:center;
+  position:relative;overflow:hidden;
+}
+.newsletter::before{
+  content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.newsletter h2{font-family:'DM Serif Display',serif;font-size:2.5rem;color:white;margin-bottom:0.8rem;position:relative;}
+.newsletter p{color:rgba(255,255,255,0.85);font-size:1rem;margin-bottom:2rem;position:relative;}
+.nl-form{display:flex;gap:0.8rem;max-width:480px;margin:0 auto;position:relative;}
+.nl-form input{
+  flex:1;padding:0.9rem 1.2rem;border:none;border-radius:10px;
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:0.88rem;outline:none;
+}
+.nl-form button{
+  background:var(--dark);color:white;border:none;padding:0.9rem 1.8rem;
+  border-radius:10px;font-size:0.85rem;font-weight:700;cursor:pointer;
+  font-family:'Plus Jakarta Sans',sans-serif;white-space:nowrap;transition:all 0.3s;
+}
+.nl-form button:hover{background:#333;transform:translateY(-1px);}
+
+/* ── FOOTER ── */
+footer{background:var(--dark);color:rgba(255,255,255,0.7);padding:5rem 5% 2rem;}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:4rem;padding-bottom:4rem;border-bottom:1px solid rgba(255,255,255,0.08);}
+.footer-brand .fl{display:flex;align-items:center;gap:0.6rem;margin-bottom:1.2rem;}
+.footer-brand .fl .fi{width:34px;height:34px;background:var(--orange);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1rem;color:white;}
+.footer-brand .fl span{font-family:'DM Serif Display',serif;font-size:1.4rem;color:white;}
+.footer-brand .fl span em{color:var(--orange);font-style:normal;}
+.footer-brand p{font-size:0.82rem;line-height:1.9;max-width:260px;}
+.footer-col h4{font-size:0.72rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:white;margin-bottom:1.5rem;}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:0.8rem;}
+.footer-col ul a{text-decoration:none;color:rgba(255,255,255,0.55);font-size:0.82rem;transition:color 0.3s;}
+.footer-col ul a:hover{color:var(--orange);}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:2rem;flex-wrap:wrap;gap:1rem;}
+.footer-bottom p{font-size:0.78rem;}
+.footer-socials{display:flex;gap:0.8rem;}
+.footer-socials a{
+  width:36px;height:36px;border-radius:8px;
+  border:1px solid rgba(255,255,255,0.1);
+  display:flex;align-items:center;justify-content:center;
+  color:rgba(255,255,255,0.5);font-size:0.9rem;text-decoration:none;transition:all 0.3s;
+}
+.footer-socials a:hover{background:var(--orange);border-color:var(--orange);color:white;}
+
+/* ── ANIMATIONS ── */
+@keyframes zoomIn{from{opacity:0;transform:scale(0.88);}to{opacity:1;transform:scale(1);}}
+@keyframes floatBlob{0%,100%{transform:translate(0,0);}50%{transform:translate(30px,20px);}}
+@keyframes floatCard{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.4);opacity:0.6;}}
+@keyframes slideLeft{from{opacity:0;transform:translateX(-40px);}to{opacity:1;transform:translateX(0);}}
+@keyframes slideRight{from{opacity:0;transform:translateX(40px);}to{opacity:1;transform:translateX(0);}}
+
+.reveal{opacity:0;transform:scale(0.93);transition:all 0.6s cubic-bezier(0.34,1.36,0.64,1);}
+.reveal.visible{opacity:1;transform:scale(1);}
+.reveal-left{opacity:0;transform:translateX(-40px);transition:all 0.6s cubic-bezier(0.34,1.36,0.64,1);}
+.reveal-left.visible{opacity:1;transform:translateX(0);}
+.reveal-right{opacity:0;transform:translateX(40px);transition:all 0.6s cubic-bezier(0.34,1.36,0.64,1);}
+.reveal-right.visible{opacity:1;transform:translateX(0);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){
+  .hero{flex-direction:column;text-align:center;}
+  .hero-visual{margin-top:3rem;}
+  .hero-img-wrap{width:360px;}
+  .hero-stats{justify-content:center;}
+  .agents-grid{grid-template-columns:repeat(2,1fr);}
+  .footer-top{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:768px){
+  nav ul{display:none;}
+  .search-fields{grid-template-columns:1fr;}
+  .properties-grid{grid-template-columns:1fr;}
+  .brs-grid{grid-template-columns:1fr;}
+  .test-grid{grid-template-columns:1fr;}
+  .contact-wrap{grid-template-columns:1fr;}
+  .nl-form{flex-direction:column;}
+  .hero-img-wrap{width:100%;}
+  .hero-card1,.hero-card2,.hero-card3{display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-logo">
+    <div class="logo-icon"><i class="fa-solid fa-house"></i></div>
+    <div class="logo-text">Nest<span>Finder</span></div>
+  </div>
+  <ul>
+    <li><a href="#properties">Properties</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#agents">Agents</a></li>
+    <li><a href="#testimonials">Reviews</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-btns">
+    <button class="btn-login">Sign In</button>
+    <button class="btn-post"><i class="fa-solid fa-plus"></i> List Property</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-blob1"></div>
+  <div class="hero-blob2"></div>
+  <div class="hero-dots" id="heroDots"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><i class="fa-solid fa-medal"></i> #1 Real Estate Platform Worldwide</div>
+    <h1>Find Your Perfect <span class="highlight">Dream Home</span> Today</h1>
+    <p>Explore thousands of premium properties across Dubai, London, and the USA. Your ideal home is just one search away.</p>
+    <div class="search-box">
+      <div class="search-tabs">
+        <button class="search-tab active"><i class="fa-solid fa-house"></i> Buy</button>
+        <button class="search-tab"><i class="fa-solid fa-key"></i> Rent</button>
+        <button class="search-tab"><i class="fa-solid fa-tag"></i> Sell</button>
+      </div>
+      <div class="search-fields">
+        <div class="search-field">
+          <label>Location</label>
+          <input type="text" placeholder="Dubai, London, New York...">
+        </div>
+        <div class="search-field">
+          <label>Property Type</label>
+          <select>
+            <option>All Types</option>
+            <option>Apartment</option>
+            <option>Villa</option>
+            <option>House</option>
+            <option>Studio</option>
+            <option>Penthouse</option>
+          </select>
+        </div>
+        <div class="search-field">
+          <label>Budget</label>
+          <select>
+            <option>Any Price</option>
+            <option>Under $500K</option>
+            <option>$500K – $1M</option>
+            <option>$1M – $5M</option>
+            <option>$5M+</option>
+          </select>
+        </div>
+        <button class="btn-search"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="h-stat"><div class="num">12K+</div><div class="lbl">Properties</div></div>
+      <div class="h-stat"><div class="num">8K+</div><div class="lbl">Happy Clients</div></div>
+      <div class="h-stat"><div class="num">98%</div><div class="lbl">Satisfaction</div></div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-img-wrap">
+      <div class="hero-img-main"></div>
+      <div class="hero-card1">
+        <div class="icon"><i class="fa-solid fa-house" style="color:var(--orange)"></i></div>
+        <div><div class="t1">New Listing</div><div class="t2">Villa in Dubai</div></div>
+      </div>
+      <div class="hero-card2">
+        <div class="n">240+</div>
+        <div class="t">Properties<br>This Month</div>
+      </div>
+      <div class="hero-card3">
+        <div class="stars">★★★★★</div>
+        <div class="rt">4.9/5</div>
+        <div class="rv">2,400 reviews</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="s-item"><div class="n">12,500+</div><div class="l"><i class="fa-solid fa-building"></i> Total Properties</div></div>
+  <div class="s-item"><div class="n">8,200+</div><div class="l"><i class="fa-solid fa-users"></i> Happy Clients</div></div>
+  <div class="s-item"><div class="n">150+</div><div class="l"><i class="fa-solid fa-user-tie"></i> Expert Agents</div></div>
+  <div class="s-item"><div class="n">3</div><div class="l"><i class="fa-solid fa-globe"></i> Countries</div></div>
+  <div class="s-item"><div class="n">18</div><div class="l"><i class="fa-solid fa-award"></i> Years Experience</div></div>
+</div>
+
+<!-- FEATURED PROPERTIES -->
+<section class="section" id="properties">
+  <div class="sec-head reveal">
+    <div class="sec-tag"><i class="fa-solid fa-house-flag"></i> Featured Listings</div>
+    <h2 class="sec-h2">Explore <span>Premium</span> Properties</h2>
+    <p class="sec-p">Handpicked luxury properties in Dubai, London & USA — verified and ready to move in.</p>
+  </div>
+  <div class="properties-tabs reveal">
+    <button class="prop-tab active">All</button>
+    <button class="prop-tab">Dubai</button>
+    <button class="prop-tab">London</button>
+    <button class="prop-tab">USA</button>
+    <button class="prop-tab">Apartment</button>
+    <button class="prop-tab">Villa</button>
+  </div>
+  <div class="properties-grid">
+    <div class="prop-card reveal">
+      <div class="prop-img">
+        <div class="img" style="background-image:url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80')"></div>
+        <span class="badge">For Sale</span>
+        <div class="fav"><i class="fa-regular fa-heart"></i></div>
+      </div>
+      <div class="prop-body">
+        <div class="prop-price">$2,400,000 <span>/ Full Price</span></div>
+        <div class="prop-name">Luxury Palm Villa</div>
+        <div class="prop-loc"><i class="fa-solid fa-location-dot"></i> Palm Jumeirah, Dubai</div>
+        <div class="prop-features">
+          <div class="prop-feat"><i class="fa-solid fa-bed"></i> 5 Beds</div>
+          <div class="prop-feat"><i class="fa-solid fa-shower"></i> 4 Baths</div>
+          <div class="prop-feat"><i class="fa-solid fa-ruler-combined"></i> 4,200 sqft</div>
+        </div>
+      </div>
+    </div>
+    <div class="prop-card reveal">
+      <div class="prop-img">
+        <div class="img" style="background-image:url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80')"></div>
+        <span class="badge rent">For Rent</span>
+        <div class="fav"><i class="fa-regular fa-heart"></i></div>
+      </div>
+      <div class="prop-body">
+        <div class="prop-price">$8,500 <span>/ month</span></div>
+        <div class="prop-name">Modern Kensington Flat</div>
+        <div class="prop-loc"><i class="fa-solid fa-location-dot"></i> Kensington, London</div>
+        <div class="prop-features">
+          <div class="prop-feat"><i class="fa-solid fa-bed"></i> 3 Beds</div>
+          <div class="prop-feat"><i class="fa-solid fa-shower"></i> 2 Baths</div>
+          <div class="prop-feat"><i class="fa-solid fa-ruler-combined"></i> 1,800 sqft</div>
+        </div>
+      </div>
+    </div>
+    <div class="prop-card reveal">
+      <div class="prop-img">
+        <div class="img" style="background-image:url('https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=600&q=80')"></div>
+        <span class="badge">For Sale</span>
+        <div class="fav"><i class="fa-regular fa-heart"></i></div>
+      </div>
+      <div class="prop-body">
+        <div class="prop-price">$1,850,000 <span>/ Full Price</span></div>
+        <div class="prop-name">Beverly Hills Mansion</div>
+        <div class="prop-loc"><i class="fa-solid fa-location-dot"></i> Beverly Hills, California</div>
+        <div class="prop-features">
+          <div class="prop-feat"><i class="fa-solid fa-bed"></i> 6 Beds</div>
+          <div class="prop-feat"><i class="fa-solid fa-shower"></i> 5 Baths</div>
+          <div class="prop-feat"><i class="fa-solid fa-ruler-combined"></i> 5,500 sqft</div>
+        </div>
+      </div>
+    </div>
+    <div class="prop-card reveal">
+      <div class="prop-img">
+        <div class="img" style="background-image:url('https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&q=80')"></div>
+        <span class="badge rent">For Rent</span>
+        <div class="fav"><i class="fa-regular fa-heart"></i></div>
+      </div>
+      <div class="prop-body">
+        <div class="prop-price">$12,000 <span>/ month</span></div>
+        <div class="prop-name">Downtown Dubai Penthouse</div>
+        <div class="prop-loc"><i class="fa-solid fa-location-dot"></i> Downtown Dubai, UAE</div>
+        <div class="prop-features">
+          <div class="prop-feat"><i class="fa-solid fa-bed"></i> 4 Beds</div>
+          <div class="prop-feat"><i class="fa-solid fa-shower"></i> 3 Baths</div>
+          <div class="prop-feat"><i class="fa-solid fa-ruler-combined"></i> 3,100 sqft</div>
+        </div>
+      </div>
+    </div>
+    <div class="prop-card reveal">
+      <div class="prop-img">
+        <div class="img" style="background-image:url('https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?w=600&q=80')"></div>
+        <span class="badge sold">Sold</span>
+        <div class="fav"><i class="fa-solid fa-heart" style="color:var(--orange)"></i></div>
+      </div>
+      <div class="prop-body">
+        <div class="prop-price">$3,200,000 <span>/ Sold</span></div>
+        <div class="prop-name">Chelsea Townhouse</div>
+        <div class="prop-loc"><i class="fa-solid fa-location-dot"></i> Chelsea, London</div>
+        <div class="prop-features">
+          <div class="prop-feat"><i class="fa-solid fa-bed"></i> 4 Beds</div>
+          <div class="prop-feat"><i class="fa-solid fa-shower"></i> 3 Baths</div>
+          <div class="prop-feat"><i class="fa-solid fa-ruler-combined"></i> 2,800 sqft</div>
+        </div>
+      </div>
+    </div>
+    <div class="prop-card reveal">
+      <div class="prop-img">
+        <div class="img" style="background-image:url('https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&q=80')"></div>
+        <span class="badge">For Sale</span>
+        <div class="fav"><i class="fa-regular fa-heart"></i></div>
+      </div>
+      <div class="prop-body">
+        <div class="prop-price">$950,000 <span>/ Full Price</span></div>
+        <div class="prop-name">Miami Beach Home</div>
+        <div class="prop-loc"><i class="fa-solid fa-location-dot"></i> South Beach, Miami</div>
+        <div class="prop-features">
+          <div class="prop-feat"><i class="fa-solid fa-bed"></i> 4 Beds</div>
+          <div class="prop-feat"><i class="fa-solid fa-shower"></i> 3 Baths</div>
+          <div class="prop-feat"><i class="fa-solid fa-ruler-combined"></i> 2,400 sqft</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="view-all-wrap reveal">
+    <button class="btn-outline-orange"><i class="fa-solid fa-arrow-right"></i> View All Properties</button>
+  </div>
+</section>
+
+<!-- BUY / RENT / SELL -->
+<section class="section bg-gray" id="services">
+  <div class="sec-head reveal">
+    <div class="sec-tag"><i class="fa-solid fa-briefcase"></i> Our Services</div>
+    <h2 class="sec-h2">Buy, <span>Rent</span> or Sell</h2>
+    <p class="sec-p">Whatever your real estate need — we have the perfect solution for you.</p>
+  </div>
+  <div class="brs-grid">
+    <div class="brs-card buy reveal">
+      <div class="brs-icon"><i class="fa-solid fa-house-chimney" style="color:white;font-size:1.8rem"></i></div>
+      <h3>Buy Property</h3>
+      <p>Find your dream home from thousands of verified listings across Dubai, London and the USA. Expert guidance every step of the way.</p>
+      <a class="brs-btn" href="#"><i class="fa-solid fa-arrow-right"></i> Browse Listings</a>
+    </div>
+    <div class="brs-card rent reveal">
+      <div class="brs-icon"><i class="fa-solid fa-key" style="color:white;font-size:1.8rem"></i></div>
+      <h3>Rent Property</h3>
+      <p>Discover flexible rental options — from cozy apartments to luxury penthouses — all at competitive monthly rates.</p>
+      <a class="brs-btn" href="#"><i class="fa-solid fa-arrow-right"></i> View Rentals</a>
+    </div>
+    <div class="brs-card sell reveal">
+      <div class="brs-icon"><i class="fa-solid fa-sack-dollar" style="color:white;font-size:1.8rem"></i></div>
+      <h3>Sell Property</h3>
+      <p>Get the best price for your property. Our expert agents handle everything from valuation to closing the deal fast.</p>
+      <a class="brs-btn" href="#"><i class="fa-solid fa-arrow-right"></i> List Your Property</a>
+    </div>
+  </div>
+</section>
+
+<!-- AGENTS -->
+<section class="section" id="agents">
+  <div class="sec-head reveal">
+    <div class="sec-tag"><i class="fa-solid fa-people-group"></i> Our Team</div>
+    <h2 class="sec-h2">Meet Our <span>Expert</span> Agents</h2>
+    <p class="sec-p">Our award-winning agents are ready to help you find or sell your perfect property.</p>
+  </div>
+  <div class="agents-grid">
+    <div class="agent-card reveal">
+      <div class="agent-photo" style="background-image:url('https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80')"></div>
+      <div class="agent-body">
+        <div class="agent-name">James Mitchell</div>
+        <div class="agent-role">Senior Agent — Dubai</div>
+        <div class="agent-stats">
+          <div class="agent-stat"><div class="n">120+</div><div class="l">Sales</div></div>
+          <div class="agent-stat"><div class="n">★4.9</div><div class="l">Rating</div></div>
+        </div>
+        <div class="agent-social">
+          <div class="soc-btn"><i class="fa-brands fa-linkedin-in"></i></div>
+          <div class="soc-btn"><i class="fa-brands fa-x-twitter"></i></div>
+          <div class="soc-btn"><i class="fa-solid fa-envelope"></i></div>
+        </div>
+      </div>
+    </div>
+    <div class="agent-card reveal">
+      <div class="agent-photo" style="background-image:url('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80')"></div>
+      <div class="agent-body">
+        <div class="agent-name">Sarah Johnson</div>
+        <div class="agent-role">Luxury Specialist — London</div>
+        <div class="agent-stats">
+          <div class="agent-stat"><div class="n">95+</div><div class="l">Sales</div></div>
+          <div class="agent-stat"><div class="n">★5.0</div><div class="l">Rating</div></div>
+        </div>
+        <div class="agent-social">
+          <div class="soc-btn"><i class="fa-brands fa-linkedin-in"></i></div>
+          <div class="soc-btn"><i class="fa-brands fa-x-twitter"></i></div>
+          <div class="soc-btn"><i class="fa-solid fa-envelope"></i></div>
+        </div>
+      </div>
+    </div>
+    <div class="agent-card reveal">
+      <div class="agent-photo" style="background-image:url('https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80')"></div>
+      <div class="agent-body">
+        <div class="agent-name">David Chen</div>
+        <div class="agent-role">Investment Expert — USA</div>
+        <div class="agent-stats">
+          <div class="agent-stat"><div class="n">200+</div><div class="l">Sales</div></div>
+          <div class="agent-stat"><div class="n">★4.8</div><div class="l">Rating</div></div>
+        </div>
+        <div class="agent-social">
+          <div class="soc-btn"><i class="fa-brands fa-linkedin-in"></i></div>
+          <div class="soc-btn"><i class="fa-brands fa-x-twitter"></i></div>
+          <div class="soc-btn"><i class="fa-solid fa-envelope"></i></div>
+        </div>
+      </div>
+    </div>
+    <div class="agent-card reveal">
+      <div class="agent-photo" style="background-image:url('https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=80')"></div>
+      <div class="agent-body">
+        <div class="agent-name">Layla Hassan</div>
+        <div class="agent-role">Rental Specialist — Dubai</div>
+        <div class="agent-stats">
+          <div class="agent-stat"><div class="n">80+</div><div class="l">Rentals</div></div>
+          <div class="agent-stat"><div class="n">★4.9</div><div class="l">Rating</div></div>
+        </div>
+        <div class="agent-social">
+          <div class="soc-btn"><i class="fa-brands fa-linkedin-in"></i></div>
+          <div class="soc-btn"><i class="fa-brands fa-x-twitter"></i></div>
+          <div class="soc-btn"><i class="fa-solid fa-envelope"></i></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section bg-gray" id="testimonials">
+  <div class="sec-head reveal">
+    <div class="sec-tag"><i class="fa-solid fa-comments"></i> Testimonials</div>
+    <h2 class="sec-h2">What Our <span>Clients</span> Say</h2>
+    <p class="sec-p">Real stories from real people who found their dream homes with NestFinder.</p>
+  </div>
+  <div class="test-grid">
+    <div class="test-card reveal">
+      <div class="test-stars">★★★★★</div>
+      <p class="test-text">NestFinder made finding our Dubai villa so incredibly easy. The team was professional, responsive, and found us our dream home within 2 weeks!</p>
+      <div class="test-client">
+        <div class="test-avatar">R</div>
+        <div><div class="test-name">Rashid Al-Farsi</div><div class="test-loc"><i class="fa-solid fa-location-dot"></i> Dubai, UAE</div></div>
+      </div>
+    </div>
+    <div class="test-card reveal">
+      <div class="test-stars">★★★★★</div>
+      <p class="test-text">I sold my London flat in just 3 weeks at the asking price! The agent Sarah was absolutely brilliant throughout the whole process. Highly recommend!</p>
+      <div class="test-client">
+        <div class="test-avatar">E</div>
+        <div><div class="test-name">Emily Watson</div><div class="test-loc"><i class="fa-solid fa-location-dot"></i> London, UK</div></div>
+      </div>
+    </div>
+    <div class="test-card reveal">
+      <div class="test-stars">★★★★★</div>
+      <p class="test-text">Best real estate platform in the USA! Found a stunning Miami home that was exactly what we wanted — all within our budget. 10/10 experience!</p>
+      <div class="test-client">
+        <div class="test-avatar">M</div>
+        <div><div class="test-name">Michael Torres</div><div class="test-loc"><i class="fa-solid fa-location-dot"></i> Miami, Florida</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section" id="contact">
+  <div class="contact-wrap">
+    <div class="reveal-left">
+      <div class="sec-tag"><i class="fa-solid fa-paper-plane"></i> Contact Us</div>
+      <h2 class="sec-h2">Let's Find Your <span>Perfect</span> Home</h2>
+      <p>Our expert team is ready to assist you. Whether buying, renting or selling — we are here for you 24/7.</p>
+      <div class="c-detail">
+        <div class="c-icon"><i class="fa-solid fa-location-dot" style="color:var(--orange)"></i></div>
+        <div><h4>Our Offices</h4><p>Dubai | London | New York | Miami</p></div>
+      </div>
+      <div class="c-detail">
+        <div class="c-icon"><i class="fa-solid fa-phone" style="color:var(--orange)"></i></div>
+        <div><h4>Phone</h4><p>+1 (800) NESTFINDER</p></div>
+      </div>
+      <div class="c-detail">
+        <div class="c-icon"><i class="fa-solid fa-envelope" style="color:var(--orange)"></i></div>
+        <div><h4>Email</h4><p><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="90f8f5fcfcffd0fef5e3e4f6f9fef4f5e2bef3fffd">[email&#160;protected]</a></p></div>
+      </div>
+      <div class="c-detail">
+        <div class="c-icon"><i class="fa-solid fa-clock" style="color:var(--orange)"></i></div>
+        <div><h4>Working Hours</h4><p>Mon – Sat: 9AM – 7PM</p></div>
+      </div>
+    </div>
+    <div class="reveal-right">
+      <div class="contact-form">
+        <h3>Send Us a Message 📩</h3>
+        <form onsubmit="sendMsg(event)">
+          <div class="f-row">
+            <div class="f-group"><label>First Name</label><input type="text" placeholder="John"></div>
+            <div class="f-group"><label>Last Name</label><input type="text" placeholder="Smith"></div>
+          </div>
+          <div class="f-group"><label>Email</label><input type="email" placeholder="john@example.com"></div>
+          <div class="f-group"><label>Phone</label><input type="tel" placeholder="+1 234 567 8900"></div>
+          <div class="f-row">
+            <div class="f-group"><label>Interested In</label>
+              <select>
+                <option>Buying</option><option>Renting</option><option>Selling</option><option>Investment</option>
+              </select>
+            </div>
+            <div class="f-group"><label>Location</label>
+              <select>
+                <option>Dubai</option><option>London</option><option>New York</option><option>Miami</option>
+              </select>
+            </div>
+          </div>
+          <div class="f-group"><label>Message</label><textarea rows="4" placeholder="Tell us about your requirements..."></textarea></div>
+          <button type="submit" class="btn-send"><i class="fa-solid fa-paper-plane"></i> Send Message</button>
+          <div class="form-ok" id="formOk"><i class="fa-solid fa-circle-check"></i> Thank you! We'll get back to you within 24 hours.</div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<div class="newsletter">
+  <h2><i class="fa-solid fa-bell"></i> Stay Updated with New Listings</h2>
+  <p>Get the latest properties delivered to your inbox before anyone else.</p>
+  <div class="nl-form">
+    <input type="email" placeholder="Enter your email address...">
+    <button onclick="this.textContent='✅ Subscribed!'">Subscribe Free</button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="fl">
+        <div class="fi"><i class="fa-solid fa-house"></i></div>
+        <span>Nest<em>Finder</em></span>
+      </div>
+      <p>The world's most trusted real estate platform. Find, rent, buy or sell properties across Dubai, London and the USA.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Properties</h4>
+      <ul>
+        <li><a href="#">Buy</a></li>
+        <li><a href="#">Rent</a></li>
+        <li><a href="#">Sell</a></li>
+        <li><a href="#">Investment</a></li>
+        <li><a href="#">New Projects</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Locations</h4>
+      <ul>
+        <li><a href="#">Dubai</a></li>
+        <li><a href="#">London</a></li>
+        <li><a href="#">New York</a></li>
+        <li><a href="#">Miami</a></li>
+        <li><a href="#">Los Angeles</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Our Agents</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2024 NestFinder. All rights reserved.</p>
+    <div class="footer-socials">
+      <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+      <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+      <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+      <a href="#"><i class="fa-brands fa-instagram"></i></a>
+    </div>
+  </div>
+</footer>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// Hero dots
+const dots = document.getElementById('heroDots');
+for(let i=0;i<36;i++) dots.innerHTML += '<span></span>';
+
+// Search tabs
+document.querySelectorAll('.search-tab').forEach(t=>{
+  t.addEventListener('click',()=>{
+    document.querySelectorAll('.search-tab').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+  });
+});
+
+// Property tabs
+document.querySelectorAll('.prop-tab').forEach(t=>{
+  t.addEventListener('click',()=>{
+    document.querySelectorAll('.prop-tab').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+  });
+});
+
+// Fav toggle
+document.querySelectorAll('.fav').forEach(f=>{
+  f.addEventListener('click',()=>{
+    const icon = f.querySelector('i');
+    if(icon.classList.contains('fa-regular')){
+      icon.classList.remove('fa-regular'); icon.classList.add('fa-solid'); icon.style.color='var(--orange)';
+    } else {
+      icon.classList.remove('fa-solid'); icon.classList.add('fa-regular'); icon.style.color='';
+    }
+  });
+});
+
+// Contact form
+function sendMsg(e){
+  e.preventDefault();
+  document.getElementById('formOk').style.display='block';
+  e.target.reset();
+}
+
+// Scroll reveal
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('visible');
+    }
+  });
+},{threshold:0.1});
+document.querySelectorAll('.reveal,.reveal-left,.reveal-right').forEach(el=>observer.observe(el));
+
+</script>
+
+</body>
+</html>
